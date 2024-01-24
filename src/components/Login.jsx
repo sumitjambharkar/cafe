@@ -19,12 +19,10 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     login(email, password)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    navigate("/")
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000);
   };
 
   return (

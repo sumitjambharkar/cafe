@@ -1,102 +1,81 @@
-import React, { useEffect } from 'react'
-import useAuth from '../context/useAuth';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import useAuth from "../context/useAuth";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [firstTale, setFirstTable] = useState([])
 
- const {user} = useAuth()
- const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.role) {
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
+  }, [user?.role]);
 
- useEffect(() => {
-  if (user?.role) {
-    navigate("/");
-  } else {
-    navigate("/login");
+  const showTable = async() => {
+    try {
+      const result = await axios.get(`http://localhost:3002/show-table`)
+      setFirstTable(result.data);
+    } catch (error) {
+      console.log(result);
+    }
   }
-}, [user?.role]);
+
+  useEffect(() => {
+    showTable()
+  }, [])
+  
+
+  const createTable = async () => {
+    const table = prompt()
+    try {
+      await axios.post(`http://localhost:3002/add-table`, {
+        table: table,
+        userId: user._id,
+      });
+      showTable()
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeTable = async () => {
+    const table = prompt()
+    console.log(table);
+    try {
+      await axios.delete(`http://localhost:3002/single-table-delete`, { data: { table:table,userId:user._id } });
+      showTable()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const openTable = (id)=> {
+    navigate("/Dish",{state:{id}})
+  }
 
   return (
-   <>
-    <div className='extra_section'>
-      <button>Add Table</button>
-      <button>Remove Table</button>
-     </div>
-     <div className='all_tables'>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Running Rs.200</span>
-         <span>Table No 1</span>
+    <>
+      <div className="extra_section">
+        <button onClick={createTable}>Add Table</button>
+        <button onClick={removeTable}>Remove Table</button>
+      </div>
+      <div className="all_tables">
+       {firstTale.map((doc)=>(
+         <div onClick={()=>openTable(doc._id)} key={doc._id} className="single_table">
+         <div className="section">
+           <span></span>
+           <span>Table No {doc.table}</span>
          </div>
        </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-       <div className='single_table'>
-         <div className='section'>
-         <span>Rs.200</span>
-         <span>Table No 1</span>
-         </div>
-       </div>
-     </div>
-   </>
-  )
-}
+       ))}
+      </div>
+    </>
+  );
+};
 
-export default Home
+export default Home;

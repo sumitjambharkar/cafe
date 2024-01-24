@@ -8,7 +8,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   
-  const [user, setUser] = useState("sumit");
+  const [user, setUser] = useState("");
   const [message, setMessage] = useState("");
   const token = Cookies.get("UID") || null;
   const uid = token ? decodeToken(token) : null;
@@ -93,8 +93,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = () => {
+    Cookies.remove("UID");
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, message }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, login, message,logout }}>{children}</AuthContext.Provider>
   );
 };
 
