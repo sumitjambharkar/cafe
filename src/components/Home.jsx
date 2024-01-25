@@ -66,8 +66,9 @@ const Home = () => {
       </div>
       <div className="all_tables">
        {firstTale.map((doc)=>(
-         <div onClick={()=>openTable(doc._id)} key={doc._id} className="single_table">
+         <div className={doc.isOnline?"single_table_book":"single_table"} onClick={()=>openTable(doc._id)} key={doc._id}>
          <div className="section">
+         <h5> {doc.totalAmount?`Running Rs.${doc.totalAmount}`:null}</h5>
            <span></span>
            <span>Table No {doc.table}</span>
          </div>

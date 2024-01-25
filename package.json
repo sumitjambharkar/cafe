@@ -18,7 +18,9 @@
     "react-dom": "^18.2.0",
     "react-jwt": "^1.2.0",
     "react-router-dom": "^6.21.2",
-    "simple-notify": "^0.5.5"
+    "react-switch": "^7.0.0",
+    "simple-notify": "^0.5.5",
+    "sweetalert2": "^11.10.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

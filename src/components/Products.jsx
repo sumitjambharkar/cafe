@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Notify from "simple-notify";
+import AddIcon from "../assets/add-button.png";
+import MinIcon from "../assets/minus.png";
+import CloseIcon from "../assets/close.png";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -9,7 +13,7 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [order, setOrder] = useState([]);
   const [table, setTable] = useState("");
-  const [searchOrder,setSearchOrder] = useState("")
+  const [searchOrder, setSearchOrder] = useState("");
 
   useEffect(() => {
     const getData = async () => {
@@ -51,7 +55,22 @@ const Products = () => {
         qty: 1,
       });
       getOrder();
-      console.log(result);
+      new Notify({
+        status: "success",
+        title: "Added",
+        effect: "fade",
+        speed: 100,
+        customClass: "",
+        customIcon: "",
+        showIcon: true,
+        showCloseButton: true,
+        autoclose: true,
+        autotimeout: 1000,
+        gap: 20,
+        distance: 20,
+        type: 1,
+        position: "right top",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -68,6 +87,23 @@ const Products = () => {
       );
       getOrder();
       console.log(result);
+      new Notify({
+        status: "error",
+        title: `Removed `,
+        text: result.data.message,
+        effect: "fade",
+        speed: 100,
+        customClass: "",
+        customIcon: "",
+        showIcon: true,
+        showCloseButton: true,
+        autoclose: true,
+        autotimeout: 1000,
+        gap: 20,
+        distance: 20,
+        type: 1,
+        position: "right top",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -100,17 +136,20 @@ const Products = () => {
         <div className="order_section">
           <div className="input_section">
             <div className="search_bar">
-              <input onChange={(e)=>setSearchOrder(e.target.value)} placeholder="Search Products" type="text" />
+              <input
+                onChange={(e) => setSearchOrder(e.target.value)}
+                placeholder="Search Products"
+                type="text"
+              />
               <span>&#128269;</span>
             </div>
           </div>
           <div className="all_product">
             {data
-               .filter(
+              .filter(
                 (doc) =>
-                  doc.name
-                    .toLowerCase()
-                    .indexOf(searchOrder.toLowerCase()) !== -1
+                  doc.name.toLowerCase().indexOf(searchOrder.toLowerCase()) !==
+                  -1
               )
               .filter((doc) => doc.isOnline === true)
               .map((doc) => (
@@ -140,34 +179,34 @@ const Products = () => {
             <tbody>
               {order.map((doc, i) => (
                 <tr key={doc.name}>
-                  <td>
+                  <td className="item_name">
                     {doc.name}
-                    <span
-                      onClick={() => deleteOrder(doc._id)}
+                    <div
                       className="remove_item"
+                      onClick={() => deleteOrder(doc._id)}
                     >
-                      x
-                    </span>
+                      <img height={20} src={CloseIcon} alt="close" />
+                    </div>
                   </td>
                   <td>{doc.price}</td>
                   <td>
-                    <span
+                    <div
+                      className="increment_item"
                       onClick={() =>
                         increment({ id: doc._id, action: "decrement" })
                       }
-                      className="increment_item"
                     >
-                      -
-                    </span>
+                      <img height={20} src={MinIcon} alt="close" />
+                    </div>
                     {doc.qty}
-                    <span
+                    <div
+                      className="decrement_item"
                       onClick={() =>
                         increment({ id: doc._id, action: "increment" })
                       }
-                      className="decrement_item"
                     >
-                      +
-                    </span>
+                      <img height={20} src={AddIcon} alt="close" />
+                    </div>
                   </td>
                   <td>{doc.total}</td>
                 </tr>

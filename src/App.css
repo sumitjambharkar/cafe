@@ -1,9 +1,11 @@
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
 .login-section {
   display: flex;
   justify-content: center;
@@ -179,6 +181,19 @@
   align-items: center;
   cursor: pointer;
 }
+.single_table_book {
+
+  background: #36be14;
+  width: 319px;
+  height: 144px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  align-items: center;
+  cursor: pointer;
+
+}
 
 .section {
   display: flex;
@@ -230,6 +245,16 @@
   display: flex;
   justify-content: end;
 }
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  cursor: pointer;
+}
+.notify-is-top .notify, .notify-is-center .notify, .notify-is-y-center .notify, .notify-is-x-center.notify-is-top .notify {
+  margin-top: var(--gap);
+  width: 250px;
+}
 
 .all_product {
   display: flex;
@@ -250,19 +275,60 @@
   flex-direction: column;
   align-items: center;
   row-gap: 4px;
+  cursor: pointer;
 }
 .product span {
   color: white;
+}
+.sale_header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #ddd;
+  padding: 12px;
+}
+
+.cercle {
+  height: 150px;
+  width: 150px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  align-items: center;
+  flex-direction: column;
+  background-color: #243763;
+}
+
+.salelogo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+img.saleimage {
+  width: 50%;
+    height: 50%;
 }
 .product button {
   border: none;
   width: 100%;
   padding: 8px;
   height: 44px;
+  cursor: pointer;
+}
+.item_name {
+  padding: 10px;
+    border: 1px solid #ddd;
+    text-align: start;
 }
 .order-details {
   text-align: left;
   margin-top: 20px;
+  
 }
 
 .item {

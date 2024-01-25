@@ -32,7 +32,7 @@ const SaleReport = () => {
     paymentMode("Others");
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div className="sale_header">
         <div className="cercle">
           <div className="salelogo">
             <img
@@ -112,7 +112,7 @@ const SaleReport = () => {
           {sale.map((ele, i) => (
             <tr key={i}>
               <td>{i + 1}</td>
-              <td>sumit</td>
+              <td>{user.email}</td>
               <td>Table {ele.table}</td>
               <td>{moment(ele.createdAt).format("lll")}</td>
               <td>{ele.paymentMethod}</td>
