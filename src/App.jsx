@@ -9,6 +9,7 @@ import ProductsList from "./components/ProductsList";
 import 'simple-notify/dist/simple-notify.min.css'
 import { UserRoute,PublicRoute } from "./routes/PrivateRoute";
 import SaleReport from "./components/SaleReport";
+import Billing from "./components/Billing";
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/Dish" element={<UserRoute><Products /></UserRoute>} />
         <Route path="/add-products" element={<UserRoute><ProductsList/></UserRoute>}/>
         <Route path="/sale-report" element={<UserRoute><SaleReport/></UserRoute>}/>
+        <Route path="/payment" element={<UserRoute><Billing/></UserRoute>}/>
       </Routes>
     </>
   );

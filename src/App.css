@@ -310,8 +310,8 @@ td {
 
 
 img.saleimage {
-  width: 50%;
-    height: 50%;
+  width: 50px;
+  height: 50px;
 }
 .product button {
   border: none;
@@ -320,6 +320,7 @@ img.saleimage {
   height: 44px;
   cursor: pointer;
 }
+
 .item_name {
   padding: 10px;
     border: 1px solid #ddd;
@@ -330,9 +331,39 @@ img.saleimage {
   margin-top: 20px;
   
 }
-
+img.paymentimage {
+  width: 60px;
+}
 .item {
   margin-bottom: 10px;
+}
+.tabbox {
+  display: flex;
+  justify-content: center;
+}
+.billbox {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 5%;
+  margin-top: 10%;
+}
+.h1div {
+  display: flex;
+}
+
+.paymet_getway {
+  display: flex;
+  justify-content: inherit;
+  column-gap: 46px;
+  margin-top: 18px;
+  row-gap: 81px;
+}
+
+.paymet_getway li {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 table {
