@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import useAuth from "../context/useAuth";
 import Icon from "../assets/edit.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 const Edit = ({ getData, id }) => {
   const { user } = useAuth();
@@ -70,7 +72,7 @@ const Edit = ({ getData, id }) => {
 
   return (
     <div>
-      <img onClick={handleCustomSubmit} height={20} src={Icon} alt="edit" />
+      <FontAwesomeIcon onClick={handleCustomSubmit} icon={faPenToSquare} />
     </div>
   );
 };

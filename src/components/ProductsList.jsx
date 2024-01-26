@@ -5,12 +5,13 @@ import Edit from "./Edit";
 import Icon from "../assets/remove.png";
 import Swal from "sweetalert2";
 import Switch from "react-switch";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ProductsList = () => {
   const [search, setSearch] = useState("");
 
   const [data, setData] = useState([]);
-  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     getData();
@@ -69,8 +70,14 @@ const ProductsList = () => {
     }
   };
 
-  const handleChange = (newChecked) => {
-    setChecked(newChecked);
+  const handleChange = async({isOnline,id}) => {
+    if (isOnline===true) {
+      const response = await axios.put(`http://localhost:3002/show-single-product`,{id:id,isOnline:false});
+      getData()
+    }else{
+      const response = await axios.put(`http://localhost:3002/show-single-product`,{id:id,isOnline:true});
+      getData()
+    }
   };
 
   return (
@@ -83,7 +90,7 @@ const ProductsList = () => {
             placeholder="Search Products"
             type="text"
           />
-          <span>&#128269;</span>
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
         </div>
       </div>
       <div className="rowbox">
@@ -110,7 +117,7 @@ const ProductsList = () => {
                 <td>{doc.name}</td>
                 <td>Rs.{doc.price}</td>
                 <td>
-                  <Switch onChange={handleChange} checked={doc.isOnline} />
+                  <Switch onChange={()=>handleChange({id:doc._id,isOnline:doc.isOnline})} checked={doc.isOnline} />
                 </td>
                 <td>
                   <Edit id={doc._id} getData={getData} />

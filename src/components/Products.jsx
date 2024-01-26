@@ -2,9 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Notify from "simple-notify";
-import AddIcon from "../assets/add-button.png";
-import MinIcon from "../assets/minus.png";
-import CloseIcon from "../assets/close.png";
+import { faMagnifyingGlass, faMinus, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -141,7 +140,7 @@ const Products = () => {
                 placeholder="Search Products"
                 type="text"
               />
-              <span>&#128269;</span>
+              <span><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
             </div>
           </div>
           <div className="all_product">
@@ -185,7 +184,7 @@ const Products = () => {
                       className="remove_item"
                       onClick={() => deleteOrder(doc._id)}
                     >
-                      <img height={20} src={CloseIcon} alt="close" />
+                      <FontAwesomeIcon icon={faXmark} />
                     </div>
                   </td>
                   <td>{doc.price}</td>
@@ -196,7 +195,7 @@ const Products = () => {
                         increment({ id: doc._id, action: "decrement" })
                       }
                     >
-                      <img height={20} src={MinIcon} alt="close" />
+                      <FontAwesomeIcon icon={faMinus} />
                     </div>
                     {doc.qty}
                     <div
@@ -205,7 +204,7 @@ const Products = () => {
                         increment({ id: doc._id, action: "increment" })
                       }
                     >
-                      <img height={20} src={AddIcon} alt="close" />
+                     <FontAwesomeIcon icon={faPlus} />
                     </div>
                   </td>
                   <td>{doc.total}</td>

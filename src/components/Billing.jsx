@@ -3,9 +3,12 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import useAuth from "../context/useAuth";
 
 
 const Billing = () => {
+  const {user}  =useAuth()
+  console.log(user);
   const location = useLocation();
   const uid = location.state;
   const navigate = useNavigate()
@@ -13,6 +16,9 @@ const Billing = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [pickupAmount, setPickupAmount] = useState("");
   const [returnAmount, setReturnAmount] = useState("");
+
+  const [selectedPayment, setSelectedPayment] = useState(null);
+
 
   const returnnn = () => {
     return Math.abs(uid.total - pickupAmount);
@@ -24,12 +30,21 @@ const Billing = () => {
       pickupAmount:pickupAmount,
       returnAmount:returnnn(),
       id:uid.id,
+      user:user.email,
+      userId:user._id
     });
     navigate("/")
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleChange = (event) => {
+    setSelectedPayment(event.target.value);
+  };
+
+  
+  
   return (
     <>
       <Tabs>
@@ -58,7 +73,7 @@ const Billing = () => {
                       <h6>You Want add Tip</h6>
                     </li>
                     <li>
-                      <button onClick={() => setShow(true)}>Yes</button>
+                      <button className="dssds" onClick={() => setShow(true)}>Yes</button>
                     </li>
                   </div>
                 ) : (
@@ -67,7 +82,7 @@ const Billing = () => {
                       <h6>cancel Tip</h6>
                     </li>
                     <li>
-                      <button onClick={() => setShow(false)}>No</button>
+                      <button className="dssds" onClick={() => setShow(false)}>No</button>
                     </li>
                   </div>
                 )}
@@ -112,7 +127,7 @@ const Billing = () => {
                 <div className="buttondiv">
                   {" "}
                   <button onClick={paymet}
-                    class="button-62"
+                    class="dssds"
                     role="button"
                     style={{ margin: 12, padding: 8 }}
                   >
@@ -134,20 +149,18 @@ const Billing = () => {
                     src="https://img.icons8.com/dotty/256/card-in-use.png"
                   />
                 </div>
-              </div>{" "}
+              </div>
               <div className="paymet_getway">
-                {" "}
                 <li>
                   <h6>TOTAL AMOUNT</h6>
                 </li>
                 <li>
-                  <input value={uid.paymet_getway} />
+                  <input value={uid.total} />
                 </li>
               </div>
               <div className="buttondiv">
-                {" "}
                 <button onClick={paymet}
-                  class="button-62"
+                  class="dssds"
                   role="button"
                   style={{ margin: 12, padding: 8 }}
                 >
@@ -178,13 +191,13 @@ const Billing = () => {
                   <h6>TOTAL AMOUNT</h6>
                 </li>
                 <li>
-                  <input value={uid.paymet_getway} />
+                  <input value={uid.total} />
                 </li>
               </div>
               <div className="buttondiv">
                 {" "}
                 <button onClick={paymet}
-                  class="button-62"
+                  class="dssds"
                   role="button"
                   style={{ margin: 12, padding: 8 }}
                 >
@@ -196,66 +209,80 @@ const Billing = () => {
         </div>
         <div className="tabbox">
           <TabPanel>
-            <div className="billbox">
-              <div className="h1div">
-                <h2 className="h2payment">OTHERS PAYMENT</h2>
-                <div className="paymentlogo">
-                  <div className="paymentimage">
-                    <img
-                      className="paymentimage"
-                      src="https://img.icons8.com/windows/256/connection-status-off.png"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="paymet_getway">
-                {" "}
-                <input value="zomato" type="checkbox" />
-                <li>
-                  <h6>ZOMATO AMOUNT</h6>
-                </li>
-                <li>
-                  <input value={uid.paymet_getway} />
-                </li>
-              </div>
-              <div className="paymet_getway">
-                <input value="swiggy" type="checkbox" />
-                <li>
-                  <h6>SWIGY AMOUNT</h6>
-                </li>
-                <li>
-                  <input value={uid.paymet_getway} />
-                </li>
-              </div>
-              <div className="paymet_getway">
-                <input value="delivery" type="checkbox" />{" "}
-                <li>
-                  <h6>DELEVERY AMOUNT</h6>
-                </li>
-                <li>
-                  <input value={uid.paymet_getway} />
-                </li>
-              </div>
-              <div className="paymet_getway">
-                <input value="other" type="checkbox" />
-                <li>
-                  <h6>OTHERS AMOUNT</h6>
-                </li>
-                <li>
-                  <input value={uid.total} />
-                </li>
-              </div>
-              <div className="buttondiv">
-                {" "}
-                <button onClick={paymet}
-                  class="button-62"
-                  role="button"
-                  style={{ margin: 12, padding: 8 }}
-                >
-                  Payment
-                </button>
-              </div>
-            </div>
+          <div className="billbox">
+      <div className="h1div">
+        <h2 className="h2payment">OTHERS PAYMENT</h2>
+        <div className="paymentlogo">
+          <div className="paymentimage">
+            <img
+              className="paymentimage"
+              src="https://img.icons8.com/windows/256/connection-status-off.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="paymet_getway">
+        <input
+          value="zomato"
+          type="radio"
+          checked={selectedPayment === "zomato"}
+          onChange={handleChange}
+        />
+        <li>
+          <h6>ZOMATO AMOUNT</h6>
+        </li>
+        <li>
+          <input value={uid.total} />
+        </li>
+      </div>
+      <div className="paymet_getway">
+        <input
+          value="swiggy"
+          type="radio"
+          checked={selectedPayment === "swiggy"}
+          onChange={handleChange}
+        />
+        <li>
+          <h6>SWIGY AMOUNT</h6>
+        </li>
+        <li>
+          <input value={uid.total} />
+        </li>
+      </div>
+      <div className="paymet_getway">
+        <input
+          value="delivery"
+          type="radio"
+          checked={selectedPayment === "delivery"}
+          onChange={handleChange}
+        />{" "}
+        <li>
+          <h6>DELEVERY AMOUNT</h6>
+        </li>
+        <li>
+          <input value={uid.total} />
+        </li>
+      </div>
+      <div className="paymet_getway">
+        <input
+          value="other"
+          type="radio"
+          checked={selectedPayment === "other"}
+          onChange={handleChange}
+        />
+        <li>
+          <h6>OTHERS AMOUNT</h6>
+        </li>
+        <li>
+          <input value={uid.total} />
+        </li>
+      </div>
+      <div className="buttondiv">
+        <button onClick={paymet} className="dssds" role="button" style={{ margin: 12, padding: 8 }}>
+          Payment
+        </button>
+      </div>
+    </div>
           </TabPanel>
         </div>
       </Tabs>

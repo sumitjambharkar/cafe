@@ -6,6 +6,7 @@ import axios from "axios";
 const SaleReport = () => {
   const { user } = useAuth();
   const [sale, setSale] = useState([]);
+  console.log(sale);
 
   const getData = async () => {
     try {
@@ -112,7 +113,7 @@ const SaleReport = () => {
           {sale.map((ele, i) => (
             <tr key={i}>
               <td>{i + 1}</td>
-              <td>{user.email}</td>
+              <td>{ele.user}</td>
               <td>Table {ele.table}</td>
               <td>{moment(ele.createdAt).format("lll")}</td>
               <td>{ele.paymentMethod}</td>

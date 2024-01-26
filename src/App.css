@@ -348,8 +348,10 @@ img.paymentimage {
 }
 .h1div {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 50px;
 }
-
 .paymet_getway {
   display: flex;
   justify-content: inherit;
@@ -358,14 +360,34 @@ img.paymentimage {
   row-gap: 81px;
 }
 
+
 .paymet_getway li {
-  width: 100%;
+  width: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
-  
+}
+.paymet_getway li input {
+  padding: 6px;
+    width: 100%;
 }
 
+.paymet_getway li input:focus {
+ outline:none;
+}
+
+.paymet_getway li  h6 {
+  font-size: 14px;
+    font-weight: 900;
+}
+
+button.dssds {
+  background: #243763;
+    border: none;
+    color: white;
+    padding: 8px;
+    font-size: 19px;
+}
 table {
   width: 100%;
   margin-top: 20px;
@@ -377,6 +399,8 @@ th, td {
   border: 1px solid #ddd;
   text-align: center;
 }
+
+
 
 th {
   background-color: #f2f2f2;

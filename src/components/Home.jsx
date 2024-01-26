@@ -18,7 +18,7 @@ const Home = () => {
 
   const showTable = async() => {
     try {
-      const result = await axios.get(`http://localhost:3002/show-table`)
+      const result = await axios.get(`http://localhost:3002/show-table`,{params:{userId: user._id,}})
       setFirstTable(result.data);
     } catch (error) {
       console.log(result);
@@ -45,7 +45,6 @@ const Home = () => {
 
   const removeTable = async () => {
     const table = prompt()
-    console.log(table);
     try {
       await axios.delete(`http://localhost:3002/single-table-delete`, { data: { table:table,userId:user._id } });
       showTable()
