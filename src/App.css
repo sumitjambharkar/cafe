@@ -387,6 +387,7 @@ button.dssds {
     color: white;
     padding: 8px;
     font-size: 19px;
+    cursor: pointer;
 }
 table {
   width: 100%;
@@ -400,7 +401,13 @@ th, td {
   text-align: center;
 }
 
-
+.tag {
+  text-align: center;
+  font-weight: 900;
+  background: #777bb9;
+  padding: 6px;
+  color: #f0f0f0;
+}
 
 th {
   background-color: #f2f2f2;

@@ -36,7 +36,7 @@ const Add = ({ getData }) => {
           {
             name: nameValue,
             price: priceValue,
-            userId: user.id,
+            userId: user._id,
           }
         );
         getData();

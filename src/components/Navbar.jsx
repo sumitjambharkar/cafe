@@ -49,7 +49,7 @@ const Navbar = () => {
           </li>
           <li>
           <FontAwesomeIcon icon={faBook} />
-            <Link onClick={toggleDrawer} to="/sale-report">Sale Report</Link>
+            <Link onClick={toggleDrawer} to="/sale-report">Today Sale Report</Link>
           </li>
           <li>
           <FontAwesomeIcon icon={faPenToSquare} />

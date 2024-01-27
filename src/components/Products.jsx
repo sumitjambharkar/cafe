@@ -4,22 +4,25 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Notify from "simple-notify";
 import { faMagnifyingGlass, faMinus, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useAuth from "../context/useAuth";
 
 const Products = () => {
+  
   const navigate = useNavigate();
   const location = useLocation();
   const uid = location.state;
+   const {user}  =  useAuth()
+   console.log(user);
   const [data, setData] = useState([]);
   const [order, setOrder] = useState([]);
   const [table, setTable] = useState("");
   const [searchOrder, setSearchOrder] = useState("");
+  
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await axios.get(
-          `http://localhost:3002/show-all-product`
-        );
+        const result = await axios.get(`http://localhost:3002/show-all-product`,{params:{userId:user._id}});
         setData(result.data);
       } catch (error) {
         console.log(error);
@@ -129,6 +132,12 @@ const Products = () => {
   const payment = (id) => {
     navigate("/payment", { state: { id: id, total: table.totalAmount } });
   };
+
+  const printBill = () => {
+   
+  };
+
+
   return (
     <>
       <div className="dish_section">
@@ -165,8 +174,8 @@ const Products = () => {
           </div>
         </div>
         <div className="bill_section">
-          <h4>Table {table.table}</h4>
-          <table>
+          <h4 className="tag">Table {table.table}</h4>
+          {order.length>0?<table>
             <thead>
               <tr>
                 <th>Item</th>
@@ -219,7 +228,7 @@ const Products = () => {
                 <th>Rs.{table.totalAmount}</th>
               </tr>
               <tr>
-                <th style={{ cursor: "pointer" }}>Print</th>
+                <th onClick={printBill} style={{ cursor: "pointer" }}>Print</th>
                 {table.basket && table.basket.length > 0 ? (
                   <th
                     onClick={() => payment(uid.id)}
@@ -234,7 +243,7 @@ const Products = () => {
                 <th></th>
               </tr>
             </tbody>
-          </table>
+          </table>:null}
         </div>
       </div>
     </>

@@ -7,10 +7,12 @@ import Swal from "sweetalert2";
 import Switch from "react-switch";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useAuth from "../context/useAuth";
 
 const ProductsList = () => {
+  
+  const {user} = useAuth()
   const [search, setSearch] = useState("");
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const ProductsList = () => {
 
   const getData = async () => {
     try {
-      const result = await axios.get(`http://localhost:3002/show-all-product`);
+      const result = await axios.get(`http://localhost:3002/show-all-product`,{params:{userId:user._id}});
       setData(result.data);
     } catch (error) {
       console.log(error);
