@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import useAuth from "../context/useAuth";
-import Icon from "../assets/edit.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,7 +14,7 @@ const Edit = ({ getData, id }) => {
     const getProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3002/show-single-product/${id}`
+          `https://rest-bar-backend.onrender.com/show-single-product/${id}`
         );
         setData(response.data);
       } catch (error) {
@@ -52,7 +51,7 @@ const Edit = ({ getData, id }) => {
       // Send data to your API using axios
       try {
         const response = await axios.put(
-          "http://localhost:3002/update-single-product",
+          "https://rest-bar-backend.onrender.com/update-single-product",
           {
             name: nameValue,
             price: priceValue,

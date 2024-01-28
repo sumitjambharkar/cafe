@@ -10,7 +10,7 @@ const SaleReport = () => {
 
   const getData = async () => {
     try {
-      const result = await axios.get(`http://localhost:3002/sale-report`,{params:{userId:user._id}});
+      const result = await axios.get(`https://rest-bar-backend.onrender.com/sale-report`,{params:{userId:user._id}});
       setSale(result.data);
     } catch (error) {
       console.log(error);

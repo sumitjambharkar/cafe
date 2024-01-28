@@ -32,7 +32,7 @@ const Add = ({ getData }) => {
       // Send data to your API using axios
       try {
         const response = await axios.post(
-          "http://localhost:3002/create-product",
+          "https://rest-bar-backend.onrender.com/create-product",
           {
             name: nameValue,
             price: priceValue,

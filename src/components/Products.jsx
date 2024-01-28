@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Notify from "simple-notify";
-import { faMagnifyingGlass, faMinus, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faMinus, faPlus, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useAuth from "../context/useAuth";
+import { useReactToPrint } from 'react-to-print';
+
 
 const Products = () => {
   
@@ -22,7 +24,7 @@ const Products = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await axios.get(`http://localhost:3002/show-all-product`,{params:{userId:user._id}});
+        const result = await axios.get(`https://rest-bar-backend.onrender.com/show-all-product`,{params:{userId:user._id}});
         setData(result.data);
       } catch (error) {
         console.log(error);
@@ -34,7 +36,7 @@ const Products = () => {
 
   const getOrder = async () => {
     try {
-      const result = await axios.get(`http://localhost:3002/single-table`, {
+      const result = await axios.get(`https://rest-bar-backend.onrender.com/single-table`, {
         params: { id: uid?.id },
       });
       setOrder(result.data.basket);
@@ -50,7 +52,7 @@ const Products = () => {
 
   const addOrder = async (doc) => {
     try {
-      const result = await axios.post(`http://localhost:3002/add-order`, {
+      const result = await axios.post(`https://rest-bar-backend.onrender.com/add-order`, {
         id: uid.id,
         name: doc.name,
         price: doc.price,
@@ -81,7 +83,7 @@ const Products = () => {
   const deleteOrder = async (orderId) => {
     try {
       const result = await axios.post(
-        `http://localhost:3002/basket-order-remove`,
+        `https://rest-bar-backend.onrender.com/basket-order-remove`,
         {
           id: uid.id,
           orderId: orderId,
@@ -115,7 +117,7 @@ const Products = () => {
     console.log(check);
     try {
       const result = await axios.post(
-        `http://localhost:3002/basket-order-increment-decrement`,
+        `https://rest-bar-backend.onrender.com/basket-order-increment-decrement`,
         {
           id: uid.id,
           orderId: check.id,
@@ -133,10 +135,12 @@ const Products = () => {
     navigate("/payment", { state: { id: id, total: table.totalAmount } });
   };
 
-  const printBill = () => {
-   
-  };
+  const componentRef = React.useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
+  
 
   return (
     <>
@@ -173,7 +177,7 @@ const Products = () => {
               ))}
           </div>
         </div>
-        <div className="bill_section">
+        <div ref={componentRef}  className="bill_section">
           <h4 className="tag">Table {table.table}</h4>
           {order.length>0?<table>
             <thead>
@@ -193,7 +197,7 @@ const Products = () => {
                       className="remove_item"
                       onClick={() => deleteOrder(doc._id)}
                     >
-                      <FontAwesomeIcon icon={faXmark} />
+                      <FontAwesomeIcon icon={faTrash} />
                     </div>
                   </td>
                   <td>{doc.price}</td>
@@ -228,7 +232,7 @@ const Products = () => {
                 <th>Rs.{table.totalAmount}</th>
               </tr>
               <tr>
-                <th onClick={printBill} style={{ cursor: "pointer" }}>Print</th>
+                <th onClick={handlePrint}  style={{ cursor: "pointer" }}>Print</th>
                 {table.basket && table.basket.length > 0 ? (
                   <th
                     onClick={() => payment(uid.id)}
@@ -245,6 +249,7 @@ const Products = () => {
             </tbody>
           </table>:null}
         </div>
+       
       </div>
     </>
   );

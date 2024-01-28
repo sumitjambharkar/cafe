@@ -5,7 +5,7 @@ import Edit from "./Edit";
 import Icon from "../assets/remove.png";
 import Swal from "sweetalert2";
 import Switch from "react-switch";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useAuth from "../context/useAuth";
 
@@ -21,7 +21,7 @@ const ProductsList = () => {
 
   const getData = async () => {
     try {
-      const result = await axios.get(`http://localhost:3002/show-all-product`,{params:{userId:user._id}});
+      const result = await axios.get(`https://rest-bar-backend.onrender.com/show-all-product`,{params:{userId:user._id}});
       setData(result.data);
     } catch (error) {
       console.log(error);
@@ -43,7 +43,7 @@ const ProductsList = () => {
 
       if (result.isConfirmed) {
         const response = await axios.delete(
-          `http://localhost:3002/delete-single-product`,
+          `https://rest-bar-backend.onrender.com/delete-single-product`,
           { params: { id } }
         );
 
@@ -74,10 +74,10 @@ const ProductsList = () => {
 
   const handleChange = async({isOnline,id}) => {
     if (isOnline===true) {
-      const response = await axios.put(`http://localhost:3002/show-single-product`,{id:id,isOnline:false});
+      const response = await axios.put(`https://rest-bar-backend.onrender.com/show-single-product`,{id:id,isOnline:false});
       getData()
     }else{
-      const response = await axios.put(`http://localhost:3002/show-single-product`,{id:id,isOnline:true});
+      const response = await axios.put(`https://rest-bar-backend.onrender.com/show-single-product`,{id:id,isOnline:true});
       getData()
     }
   };
@@ -125,12 +125,7 @@ const ProductsList = () => {
                   <Edit id={doc._id} getData={getData} />
                 </td>
                 <td style={{ cursor: "pointer" }}>
-                  <img
-                    onClick={() => productDelete(doc._id)}
-                    height={20}
-                    src={Icon}
-                    alt="remove"
-                  />
+                <FontAwesomeIcon onClick={() => productDelete(doc._id)} icon={faTrash} />
                 </td>
               </tr>
             ))}

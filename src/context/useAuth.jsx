@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const getUser = async () => {
       if (uid?.id) {
         try {
-          const result = await axios.get(`http://localhost:3002/user/${uid.id}`);
+          const result = await axios.get(`https://rest-bar-backend.onrender.com/user/${uid.id}`);
           setUser(result.data);
         } catch (error) {
           console.log(error);
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const result = await axios.post('http://localhost:3002/admin-login', { email, password });
+      const result = await axios.post('https://rest-bar-backend.onrender.com/admin-login', { email, password });
       if (result.status === 200) {
         new Notify ({
           status:"success",

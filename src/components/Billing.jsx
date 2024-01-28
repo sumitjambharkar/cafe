@@ -25,7 +25,7 @@ const Billing = () => {
   };
   const paymet = async () => {
     try {
-      const result = await axios.post(`http://localhost:3002/payment-method`, {
+      const result = await axios.post(`https://rest-bar-backend.onrender.com/payment-method`, {
       paymentMethod:paymentMethod?paymentMethod:"Cash",
       pickupAmount:pickupAmount,
       returnAmount:returnnn(),

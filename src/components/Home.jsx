@@ -18,7 +18,7 @@ const Home = () => {
 
   const showTable = async() => {
     try {
-      const result = await axios.get(`http://localhost:3002/show-table`,{params:{userId: user._id,}})
+      const result = await axios.get(`https://rest-bar-backend.onrender.com/show-table`,{params:{userId: user._id,}})
       setFirstTable(result.data);
     } catch (error) {
       console.log(result);
@@ -33,7 +33,7 @@ const Home = () => {
   const createTable = async () => {
     const table = prompt()
     try {
-      await axios.post(`http://localhost:3002/add-table`, {
+      await axios.post(`https://rest-bar-backend.onrender.com/add-table`, {
         table: table,
         userId: user._id,
       });
@@ -46,7 +46,7 @@ const Home = () => {
   const removeTable = async () => {
     const table = prompt()
     try {
-      await axios.delete(`http://localhost:3002/single-table-delete`, { data: { table:table,userId:user._id } });
+      await axios.delete(`https://rest-bar-backend.onrender.com/single-table-delete`, { data: { table:table,userId:user._id } });
       showTable()
     } catch (error) {
       console.log(error);

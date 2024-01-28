@@ -63,6 +63,7 @@
   background-color: #243763;
   padding-top: 60px;
   transition: left 0.3s ease; /* Apply transition to the 'left' property */
+  z-index: 2;
 }
 
 .drawer.open {
@@ -438,6 +439,7 @@ th {
     min-width: 100px;
     border-radius: 24px;
     cursor: pointer;
+    
 }
 
 .dropdown-content {
