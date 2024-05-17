@@ -10,6 +10,7 @@ const Home = () => {
   const [firstTale, setFirstTable] = useState([])
   const { user: item } = useSelector((state) => state.user);
   const user = decodeToken(item);
+  console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -22,6 +23,7 @@ const Home = () => {
   const showTable = async() => {
     try {
       const result = await axios.get(`${config}/show-table`,{params:{userId: user.id,}})
+      console.log(result);
       setFirstTable(result.data);
     } catch (error) {
       console.log(result);
@@ -38,7 +40,7 @@ const Home = () => {
     try {
       await axios.post(`${config}/add-table`, {
         table: table,
-        userId: user._id,
+        userId: user.id,
       });
       showTable()
     } catch (error) {

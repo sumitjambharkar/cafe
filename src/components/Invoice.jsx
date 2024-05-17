@@ -116,17 +116,17 @@ const TotalDiv = styled.div`
 const Invoice = () =>  {
   const { id } = useParams();
   const [product, setProduct] = useState({});
-  console.log(product);
-  const getData = async () => {
-    try {
-      const result = await axios.get(`${config}/sale-product/${id}`);
-      setProduct(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+ console.log(id);
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await axios.get(`${config}/sale-product`,{params:{productId:id}});
+        setProduct(result.data);
+        console.log(result.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getData();
   }, [id]);
 

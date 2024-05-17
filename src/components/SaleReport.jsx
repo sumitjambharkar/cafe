@@ -117,12 +117,12 @@ const SaleReport = () => {
           {sale.map((ele, i) => (
             <tr key={i}>
               <td>{i + 1}</td>
-              <td>{ele.user}</td>
+              <td>{ele._id}</td>
               <td>Table {ele.table}</td>
               <td>{moment(ele.createdAt).format("lll")}</td>
               <td>{ele.paymentMethod}</td>
               <td>{ele.totalAmount}</td>
-              <td><Link target="_blank" to={`${ele._id}`}>View</Link></td>
+              <td><Link target="_blank" to={`${ele.productId}`}>View</Link></td>
             </tr>
           ))}
         </table>
