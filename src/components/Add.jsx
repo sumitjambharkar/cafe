@@ -1,10 +1,13 @@
 import React from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
-import useAuth from "../context/useAuth";
+import config from "../config";
+import { useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
 
 const Add = ({ getData }) => {
-  const { user } = useAuth();
+  const { user: item } = useSelector((state) => state.user);
+  const user = decodeToken(item);
   const handleCustomSubmit = async () => {
     const { value: formValues } = await Swal.fire({
       title: "Enter name and price",
@@ -32,7 +35,7 @@ const Add = ({ getData }) => {
       // Send data to your API using axios
       try {
         const response = await axios.post(
-          "https://rest-bar-backend.onrender.com/create-product",
+          `${config}/create-product`,
           {
             name: nameValue,
             price: priceValue,

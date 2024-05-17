@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
-import useAuth from "../context/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import config from "../config";
 
 const Edit = ({ getData, id }) => {
-  const { user } = useAuth();
   const [data, setData] = useState("");
   console.log(data);
 
@@ -14,7 +13,7 @@ const Edit = ({ getData, id }) => {
     const getProduct = async () => {
       try {
         const response = await axios.get(
-          `https://rest-bar-backend.onrender.com/show-single-product/${id}`
+          `${config}/show-single-product/${id}`
         );
         setData(response.data);
       } catch (error) {
@@ -51,7 +50,7 @@ const Edit = ({ getData, id }) => {
       // Send data to your API using axios
       try {
         const response = await axios.put(
-          "https://rest-bar-backend.onrender.com/update-single-product",
+          `${config}/update-single-product`,
           {
             name: nameValue,
             price: priceValue,

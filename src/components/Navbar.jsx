@@ -1,23 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import useAuth from '../context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faBook, faHouse, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import config from '../config';
+import { useDispatch, useSelector } from 'react-redux';
+import { decodeToken } from 'react-jwt';
+import axios from 'axios';
+import { logout } from '../features/userSlice';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const { user: item } = useSelector((state) => state.user);
+  const user = decodeToken(item);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const {logout,user}  = useAuth()
+  const [email, setEmail] = useState("")
   const navigate = useNavigate()
+  
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (user?.id) {
+        try {
+          const result = await axios.get(`${config}/user/${user?.id}`);
+          setEmail(result.data.email);
+        } catch (error) {
+          console.error("Failed to fetch user:", error);
+        }
+      }
+    };
+    
+    getUser();
+  }, [user?.id]);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const handleLogout = () => {
-    logout()
-    navigate("/login")
-  }
+  const userLogout = async () => {
+    try {
+      dispatch(logout());
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   
   return (
     <div>
@@ -25,10 +52,10 @@ const Navbar = () => {
         <div className='header'>
         <span>{new Date().toLocaleDateString()}</span>
         <div className="dropdown">
-        <button className="dropbtn">{user?.email}</button>
+        <button className="dropbtn">{email}</button>
         <div className="dropdown-content">
             <Link to="/setting">Settings</Link>
-            <Link onClick={handleLogout}>Logout</Link>
+            <Link onClick={userLogout}>Logout</Link>
         </div>
     </div>
         </div>

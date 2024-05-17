@@ -1,13 +1,15 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import useAuth from '../context/useAuth';
+import { useSelector } from 'react-redux';
+import { decodeToken } from 'react-jwt';
 
 const PublicRoute = ({ children }) => {
   return <>{children}</>;
 };
 
 const UserRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user: item } = useSelector((state) => state.user);
+  const user = decodeToken(item);
   if (user) {
     return <>{children}</>;
   } else {

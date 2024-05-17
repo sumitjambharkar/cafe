@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
+import config from "../config";
 
 const Home = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [firstTale, setFirstTable] = useState([])
+  const { user: item } = useSelector((state) => state.user);
+  const user = decodeToken(item);
 
   useEffect(() => {
-    if (user?.role) {
+    if (user) {
       navigate("/");
     } else {
       navigate("/login");
     }
-  }, [user?.role]);
+  }, []);
 
   const showTable = async() => {
     try {
-      const result = await axios.get(`https://rest-bar-backend.onrender.com/show-table`,{params:{userId: user._id,}})
+      const result = await axios.get(`${config}/show-table`,{params:{userId: user.id,}})
       setFirstTable(result.data);
     } catch (error) {
       console.log(result);
@@ -33,7 +36,7 @@ const Home = () => {
   const createTable = async () => {
     const table = prompt()
     try {
-      await axios.post(`https://rest-bar-backend.onrender.com/add-table`, {
+      await axios.post(`${config}/add-table`, {
         table: table,
         userId: user._id,
       });
@@ -46,7 +49,7 @@ const Home = () => {
   const removeTable = async () => {
     const table = prompt()
     try {
-      await axios.delete(`https://rest-bar-backend.onrender.com/single-table-delete`, { data: { table:table,userId:user._id } });
+      await axios.delete(`${config}/single-table-delete`, { data: { table:table,userId:user._id } });
       showTable()
     } catch (error) {
       console.log(error);

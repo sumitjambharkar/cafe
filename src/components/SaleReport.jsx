@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../context/useAuth";
 import moment from "moment";
 import axios from "axios";
+import config from "../config";
+import { useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
+import { Link } from "react-router-dom";
 
 const SaleReport = () => {
-  const { user } = useAuth();
   const [sale, setSale] = useState([]);
+  const { user: item } = useSelector((state) => state.user);
+  const user = decodeToken(item);
   console.log(sale);
 
   const getData = async () => {
     try {
-      const result = await axios.get(`https://rest-bar-backend.onrender.com/sale-report`,{params:{userId:user._id}});
+      const result = await axios.get(`${config}/sale-report`,{params:{userId:user.id}});
       setSale(result.data);
     } catch (error) {
       console.log(error);
@@ -118,7 +122,7 @@ const SaleReport = () => {
               <td>{moment(ele.createdAt).format("lll")}</td>
               <td>{ele.paymentMethod}</td>
               <td>{ele.totalAmount}</td>
-              <td>View</td>
+              <td><Link target="_blank" to={`${ele._id}`}>View</Link></td>
             </tr>
           ))}
         </table>

@@ -4,8 +4,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Notify from "simple-notify";
 import { faMagnifyingGlass, faMinus, faPlus, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useAuth from "../context/useAuth";
 import { useReactToPrint } from 'react-to-print';
+import config from "../config";
+import { useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
 
 
 const Products = () => {
@@ -13,18 +15,18 @@ const Products = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const uid = location.state;
-   const {user}  =  useAuth()
-   console.log(user);
   const [data, setData] = useState([]);
   const [order, setOrder] = useState([]);
   const [table, setTable] = useState("");
   const [searchOrder, setSearchOrder] = useState("");
+  const { user: item } = useSelector((state) => state.user);
+  const user = item ? decodeToken(item) : null; 
   
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await axios.get(`https://rest-bar-backend.onrender.com/show-all-product`,{params:{userId:user._id}});
+        const result = await axios.get(`${config}/show-all-product`,{params:{userId:user.id}});
         setData(result.data);
       } catch (error) {
         console.log(error);
@@ -36,7 +38,7 @@ const Products = () => {
 
   const getOrder = async () => {
     try {
-      const result = await axios.get(`https://rest-bar-backend.onrender.com/single-table`, {
+      const result = await axios.get(`${config}/single-table`, {
         params: { id: uid?.id },
       });
       setOrder(result.data.basket);
@@ -48,12 +50,12 @@ const Products = () => {
 
   useEffect(() => {
     getOrder();
-  }, [uid.id]);
+  }, [uid?.id]);
 
   const addOrder = async (doc) => {
     try {
-      const result = await axios.post(`https://rest-bar-backend.onrender.com/add-order`, {
-        id: uid.id,
+      const result = await axios.post(`${config}/add-order`, {
+        id: uid?.id,
         name: doc.name,
         price: doc.price,
         qty: 1,
@@ -83,7 +85,7 @@ const Products = () => {
   const deleteOrder = async (orderId) => {
     try {
       const result = await axios.post(
-        `https://rest-bar-backend.onrender.com/basket-order-remove`,
+        `${config}/basket-order-remove`,
         {
           id: uid.id,
           orderId: orderId,
@@ -114,10 +116,9 @@ const Products = () => {
   };
 
   const increment = async (check) => {
-    console.log(check);
     try {
       const result = await axios.post(
-        `https://rest-bar-backend.onrender.com/basket-order-increment-decrement`,
+        `${config}/basket-order-increment-decrement`,
         {
           id: uid.id,
           orderId: check.id,
@@ -125,7 +126,6 @@ const Products = () => {
         }
       );
       getOrder();
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -179,7 +179,7 @@ const Products = () => {
         </div>
         <div ref={componentRef}  className="bill_section">
           <h4 className="tag">Table {table.table}</h4>
-          {order.length>0?<table>
+          {order?.length > 0 ?<table>
             <thead>
               <tr>
                 <th>Item</th>

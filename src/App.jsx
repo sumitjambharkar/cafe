@@ -10,14 +10,23 @@ import 'simple-notify/dist/simple-notify.min.css'
 import { UserRoute,PublicRoute } from "./routes/PrivateRoute";
 import SaleReport from "./components/SaleReport";
 import Billing from "./components/Billing";
+import Invoice from "./components/Invoice";
 
 const App = () => {
 
   const location = useLocation();
+  
+  // Define paths where Navbar should not be displayed
+  const hideNavbarPaths = ['/sale-report/:id', '/login'];
+
+  // Function to check if current path matches any hideNavbarPaths patterns
+  const shouldHideNavbar = hideNavbarPaths.some((path) =>
+    new RegExp(`^${path.replace(/:[^\s/]+/g, '([\\w-]+)')}$`).test(location.pathname)
+  );
 
   return (
     <>
-      {location.pathname === "/login" ? null : <Navbar />}
+       {!shouldHideNavbar && <Navbar />}
       <Routes>
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/" element={<UserRoute><Home /></UserRoute>} />
@@ -25,6 +34,7 @@ const App = () => {
         <Route path="/add-products" element={<UserRoute><ProductsList/></UserRoute>}/>
         <Route path="/sale-report" element={<UserRoute><SaleReport/></UserRoute>}/>
         <Route path="/payment" element={<UserRoute><Billing/></UserRoute>}/>
+        <Route path="/sale-report/:id" element={<PublicRoute><Invoice/></PublicRoute>}/>
       </Routes>
     </>
   );

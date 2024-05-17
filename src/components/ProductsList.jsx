@@ -7,11 +7,14 @@ import Swal from "sweetalert2";
 import Switch from "react-switch";
 import { faMagnifyingGlass, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useAuth from "../context/useAuth";
+import config from "../config";
+import { useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
 
 const ProductsList = () => {
   
-  const {user} = useAuth()
+  const { user: item } = useSelector((state) => state.user);
+  const user = decodeToken(item);
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
 
@@ -21,7 +24,7 @@ const ProductsList = () => {
 
   const getData = async () => {
     try {
-      const result = await axios.get(`https://rest-bar-backend.onrender.com/show-all-product`,{params:{userId:user._id}});
+      const result = await axios.get(`${config}/show-all-product`,{params:{userId:user.id}});
       setData(result.data);
     } catch (error) {
       console.log(error);
@@ -43,7 +46,7 @@ const ProductsList = () => {
 
       if (result.isConfirmed) {
         const response = await axios.delete(
-          `https://rest-bar-backend.onrender.com/delete-single-product`,
+          `${config}/delete-single-product`,
           { params: { id } }
         );
 
@@ -74,10 +77,10 @@ const ProductsList = () => {
 
   const handleChange = async({isOnline,id}) => {
     if (isOnline===true) {
-      const response = await axios.put(`https://rest-bar-backend.onrender.com/show-single-product`,{id:id,isOnline:false});
+      const response = await axios.put(`${config}/show-single-product`,{id:id,isOnline:false});
       getData()
     }else{
-      const response = await axios.put(`https://rest-bar-backend.onrender.com/show-single-product`,{id:id,isOnline:true});
+      const response = await axios.put(`${config}/show-single-product`,{id:id,isOnline:true});
       getData()
     }
   };
