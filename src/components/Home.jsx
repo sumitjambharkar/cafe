@@ -73,7 +73,7 @@ const Home = () => {
   const removeTable = async () => {
     const table = prompt()
     try {
-      await axios.delete(`${config}/single-table-delete`, { data: { table:table,userId:user._id } });
+      await axios.delete(`${config}/single-table-delete`, { data: { table:table,author:user.id } });
       showTable()
     } catch (error) {
       console.log(error);
