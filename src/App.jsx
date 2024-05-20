@@ -11,6 +11,7 @@ import { UserRoute,PublicRoute } from "./routes/PrivateRoute";
 import SaleReport from "./components/SaleReport";
 import Billing from "./components/Billing";
 import Invoice from "./components/Invoice";
+import Address from "./components/Address";
 
 const App = () => {
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/" element={<UserRoute><Home /></UserRoute>} />
         <Route path="/Dish" element={<UserRoute><Products /></UserRoute>} />
         <Route path="/add-products" element={<UserRoute><ProductsList/></UserRoute>}/>
+        <Route path="/add-details" element={<UserRoute><Address/></UserRoute>}/>
         <Route path="/sale-report" element={<UserRoute><SaleReport/></UserRoute>}/>
         <Route path="/payment" element={<UserRoute><Billing/></UserRoute>}/>
         <Route path="/sale-report/:id" element={<PublicRoute><Invoice/></PublicRoute>}/>

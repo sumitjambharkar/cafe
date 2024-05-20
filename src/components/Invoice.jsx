@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import config from '../config';
 import { format } from 'date-fns';
+import { decodeToken } from 'react-jwt';
+import { useSelector } from 'react-redux';
 
 const InvoiceContainer = styled.div`
   max-width: 800px;
@@ -116,7 +118,18 @@ const TotalDiv = styled.div`
 const Invoice = () =>  {
   const { id } = useParams();
   const [product, setProduct] = useState({});
- console.log(id);
+  const {user:item} = useSelector((state) => state.user);
+  const user = decodeToken(item);
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    const getData= async()=> {
+      const result = await axios.get(`${config}/show-address/${user.id}`)
+      setData(result.data);
+    }
+    getData()
+  }, [user.id])
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -136,10 +149,10 @@ const Invoice = () =>  {
   return (
     <InvoiceContainer>
       <Header>
-        <HeaderH1>NUTRITION PLANET PVT LTD</HeaderH1>
-        <HeaderP>SHOP NO.A-1 PINK CO-OP.HSG SOC J.P ROAD NEAR 7 BUNGALOWS GARDEN, VERSOVA ANDHERI WEST MUMBAI 400</HeaderP>
-        <HeaderP>GSTIN: 27AAECN5900H1ZG</HeaderP>
-        <HeaderP>PH.NO: 8976708052</HeaderP>
+        <HeaderH1>{data.name}</HeaderH1>
+        <HeaderP>{data.address}</HeaderP>
+        <HeaderP>GSTIN: {data.gst}</HeaderP>
+        <HeaderP>PH.NO: {data.number}</HeaderP>
       </Header>
       <Details>
         <Info>

@@ -82,6 +82,10 @@ const Navbar = () => {
           <FontAwesomeIcon icon={faPenToSquare} />
             <Link onClick={toggleDrawer} to="/add-products">Add Products</Link>
           </li>
+          <li>
+          <FontAwesomeIcon icon={faPenToSquare} />
+            <Link onClick={toggleDrawer} to="/add-details">Add Details</Link>
+          </li>
         </ul>
       </div>
       </div>

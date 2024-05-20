@@ -122,7 +122,7 @@ const SaleReport = () => {
               <td>{moment(ele.createdAt).format("lll")}</td>
               <td>{ele.paymentMethod}</td>
               <td>{ele.totalAmount}</td>
-              <td><Link target="_blank" to={`${ele.productId}`}>View</Link></td>
+              <td><Link  to={`${ele.productId}`}>View</Link></td>
             </tr>
           ))}
         </table>
