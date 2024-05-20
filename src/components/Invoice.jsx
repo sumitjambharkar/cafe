@@ -149,10 +149,10 @@ const Invoice = () =>  {
   return (
     <InvoiceContainer>
       <Header>
-        <HeaderH1>{data.name}</HeaderH1>
-        <HeaderP>{data.address}</HeaderP>
-        <HeaderP>GSTIN: {data.gst}</HeaderP>
-        <HeaderP>PH.NO: {data.number}</HeaderP>
+        <HeaderH1>{data?.name}</HeaderH1>
+        <HeaderP>{data?.address}</HeaderP>
+        <HeaderP>GSTIN: {data?.gst}</HeaderP>
+        <HeaderP>PH.NO: {data?.number}</HeaderP>
       </Header>
       <Details>
         <Info>

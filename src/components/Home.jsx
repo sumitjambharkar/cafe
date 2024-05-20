@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { decodeToken } from "react-jwt";
 import config from "../config";
+import Notify from "simple-notify";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,14 +38,35 @@ const Home = () => {
 
   const createTable = async () => {
     const table = prompt()
-    try {
-      await axios.post(`${config}/add-table`, {
-        table: table,
-        userId: user.id,
+    console.log(table);
+    if (table) {
+      try {
+        await axios.post(`${config}/add-table`, {
+          table: table,
+          userId: user.id,
+        });
+        showTable()
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      new Notify({
+        status: "error",
+        title: "Error",
+        text: "Enter Table Number",
+        effect: "fade",
+        speed: 300,
+        customClass: "",
+        customIcon: "",
+        showIcon: true,
+        showCloseButton: true,
+        autoclose: false,
+        autotimeout: 3000,
+        gap: 20,
+        distance: 20,
+        type: 1,
+        position: "right top",
       });
-      showTable()
-    } catch (error) {
-      console.log(error);
     }
   };
 
