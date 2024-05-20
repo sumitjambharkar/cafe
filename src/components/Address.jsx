@@ -9,6 +9,8 @@ const Address = () => {
   const {user:item} = useSelector((state) => state.user);
   const user = decodeToken(item); // Get the user from the Redux store
   const [data, setData] = useState({});
+  console.log(user.id);
+  console.log(data);
 
   useEffect(() => {
     const getData= async()=> {
@@ -28,7 +30,7 @@ const Address = () => {
 
   const add = async () => {
     try {
-        const result = await axios.post(`${config}/update-or-add-address`, {
+        const result = await axios.post(`${config}/add-address`, {
             name: data.name,
             address: data.address,
             number: data.number,
@@ -53,9 +55,38 @@ const Address = () => {
           });
     } catch (error) {
         console.error('Failed to add address:', error);
-        alert('Failed to add address.');
     }
-};
+  };
+
+  const update = async () => {
+    try {
+        const result = await axios.put(`${config}/update-address/${user.id}`, {
+            name: data.name,
+            address: data.address,
+            number: data.number,
+            gst: data.gst,
+            author: user.id
+        });
+        new Notify({
+            status: "success",
+            title:result.data.message,
+            effect: "fade",
+            speed: 100,
+            customClass: "",
+            customIcon: "",
+            showIcon: true,
+            showCloseButton: true,
+            autoclose: true,
+            autotimeout: 1000,
+            gap: 20,
+            distance: 20,
+            type: 1,
+            position: "right top",
+          });
+    } catch (error) {
+        console.error('Failed to add address:', error);
+    }
+  };
 
   return (
     <div className='address'>
@@ -97,7 +128,7 @@ const Address = () => {
           />
         </div>
         <div className='rest_center'>
-          {data?<button onClick={add}>Update</button>:<button onClick={add}>Add</button>}
+          {data?<button onClick={update}>Update</button>:<button onClick={add}>Add</button>}
         </div>
       </div>
     </div>
